@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github/golangfirstproject/internal/config"
+	"github.com/ub1vashka/golangfirstproject/internal/config"
 )
 
 func main() {

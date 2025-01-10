@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github/golangfirstproject/internal/config"
-	"github/golangfirstproject/internal/logger"
-	"github/golangfirstproject/internal/service"
+	"github.com/ub1vashka/golangfirstproject/internal/config"
+	"github.com/ub1vashka/golangfirstproject/internal/logger"
+	"github.com/ub1vashka/golangfirstproject/internal/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -61,8 +61,8 @@ func (s *Server) configRouting() *gin.Engine {
 	}
 	books := router.Group("/books")
 	{
-		books.GET("/:id")
-		books.DELETE("/:id")
+		books.GET("/:id", s.getBookByIDHandler)
+		books.DELETE("/:id", s.deleteBookHandler)
 		books.GET("/", s.getBooksHandler)
 		books.POST("/", s.addBookHandler)
 	}

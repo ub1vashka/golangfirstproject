@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github/golangfirstproject/internal/domain/models"
-	"github/golangfirstproject/internal/logger"
+	"github.com/ub1vashka/golangfirstproject/internal/domain/models"
+	"github.com/ub1vashka/golangfirstproject/internal/logger"
 )
 
 type Storage interface {
