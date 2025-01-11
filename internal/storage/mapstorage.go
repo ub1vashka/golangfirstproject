@@ -43,16 +43,16 @@ func (ms *MapStorage) SaveUser(user models.User) (string, error) {
 }
 
 func (ms *MapStorage) DeleteUser(uid string) error {
-	_, ok := ms.bStor[uid]
+	_, ok := ms.stor[uid]
 	if !ok {
 		return storageerror.ErrUserNotFound
 	}
-	delete(ms.bStor, uid)
+	delete(ms.stor, uid)
 	return nil
 }
 
 func (ms *MapStorage) GetUsers() ([]models.User, error) {
-	if len(ms.bStor) == 0 {
+	if len(ms.stor) == 0 {
 		return nil, storageerror.ErrEmptyStorage
 	}
 	var users []models.User
