@@ -1,4 +1,4 @@
-module github.com/ub1vashka/golangfirstproject.git
+module github.com/ub1vashka/golangfirstproject
 
 go 1.22.3
 

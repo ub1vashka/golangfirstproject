@@ -3,9 +3,9 @@ package storage
 import (
 	"errors"
 
-	"github/golangfirstproject/internal/domain/models"
-	"github/golangfirstproject/internal/logger"
-	"github/golangfirstproject/internal/storage/storageerror"
+	"github.com/ub1vashka/golangfirstproject/internal/domain/models"
+	"github.com/ub1vashka/golangfirstproject/internal/logger"
+	"github.com/ub1vashka/golangfirstproject/internal/storage/storageerror"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -17,7 +17,10 @@ type MapStorage struct {
 }
 
 func New() *MapStorage {
-	return &MapStorage{stor: make(map[string]models.User)}
+	return &MapStorage{
+		stor:  make(map[string]models.User),
+		bStor: make(map[string]models.Book),
+	}
 }
 
 func (ms *MapStorage) SaveUser(user models.User) (string, error) {

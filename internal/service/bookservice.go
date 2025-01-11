@@ -1,6 +1,6 @@
 package service
 
-import "github/golangfirstproject/internal/domain/models"
+import "github.com/ub1vashka/golangfirstproject/internal/domain/models"
 
 type BookStorage interface {
 	SaveBook(models.Book) (string, error)
