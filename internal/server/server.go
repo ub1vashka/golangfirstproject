@@ -55,16 +55,18 @@ func (s *Server) configRouting() *gin.Engine {
 	router.GET("/", func(ctx *gin.Context) { ctx.String(http.StatusOK, "Hello, my friend!") })
 	users := router.Group("/users")
 	{
-		users.GET("/info")
-		users.POST("/register", s.registerHendler)
-		users.POST("/login", s.loginHendler)
+		users.GET("/id", s.getUserByIDHandler)
+		users.GET("/list", s.getUsersHandler)
+		users.DELETE("/id", s.deleteUserHandler)
+		users.POST("/register", s.registerHandler)
+		users.POST("/login", s.loginHandler)
 	}
 	books := router.Group("/books")
 	{
 		books.GET("/:id", s.getBookByIDHandler)
 		books.DELETE("/:id", s.deleteBookHandler)
 		books.GET("/", s.getBooksHandler)
-		books.POST("/", s.addBookHandler)
+		books.POST("/add", s.addBookHandler)
 	}
 
 	return router

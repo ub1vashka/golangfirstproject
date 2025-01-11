@@ -5,17 +5,32 @@ import (
 	"github.com/ub1vashka/golangfirstproject/internal/logger"
 )
 
-type Storage interface {
+type UserStorage interface {
 	SaveUser(models.User) (string, error)
 	ValidateUser(models.UserLogin) (string, error)
+	GetUsers() ([]models.User, error)
+	GetUser(string) (models.User, error)
+	DeleteUser(string) error
 }
 
 type UserService struct {
-	stor Storage
+	stor UserStorage
 }
 
-func NewUserService(stor Storage) UserService {
+func NewUserService(stor UserStorage) UserService {
 	return UserService{stor: stor}
+}
+
+func (bs *UserService) GetUsers() ([]models.User, error) {
+	return bs.stor.GetUsers()
+}
+
+func (bs *UserService) GetUser(uid string) (models.User, error) {
+	return bs.stor.GetUser(uid)
+}
+
+func (bs *UserService) DeleteUser(uid string) error {
+	return bs.stor.DeleteUser(uid)
 }
 
 func (us *UserService) LoginUser(user models.UserLogin) (string, error) {

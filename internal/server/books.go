@@ -17,7 +17,7 @@ func (s *Server) getBookByIDHandler(ctx *gin.Context) {
 	book, err := s.bService.GetBook(bid)
 	if err != nil {
 		log.Error().Err(err).Msg("get book by ID failed")
-		if errors.Is(err, storageerror.ErrBookByIdNotFound) {
+		if errors.Is(err, storageerror.ErrBookIDNotFound) {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "book not found"})
 			return
 		}

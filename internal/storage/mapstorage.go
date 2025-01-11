@@ -36,10 +36,38 @@ func (ms *MapStorage) SaveUser(user models.User) (string, error) {
 	}
 	user.Password = string(hash)
 	uid := uuid.New()
-	user.UUID = uid
-	ms.stor[user.UUID.String()] = user
+	user.UID = uid
+	ms.stor[user.UID.String()] = user
 	log.Debug().Any("storage", ms.stor).Msg("check storage")
 	return uid.String(), nil
+}
+
+func (ms *MapStorage) DeleteUser(uid string) error {
+	_, ok := ms.bStor[uid]
+	if !ok {
+		return storageerror.ErrUserNotFound
+	}
+	delete(ms.bStor, uid)
+	return nil
+}
+
+func (ms *MapStorage) GetUsers() ([]models.User, error) {
+	if len(ms.bStor) == 0 {
+		return nil, storageerror.ErrEmptyStorage
+	}
+	var users []models.User
+	for _, user := range ms.stor {
+		users = append(users, user)
+	}
+	return users, nil
+}
+
+func (ms *MapStorage) GetUser(uid string) (models.User, error) {
+	user, ok := ms.stor[uid]
+	if !ok {
+		return models.User{}, storageerror.ErrUserNotFound
+	}
+	return user, nil
 }
 
 func (ms *MapStorage) ValidateUser(user models.UserLogin) (string, error) {
