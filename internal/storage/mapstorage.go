@@ -17,7 +17,10 @@ type MapStorage struct {
 }
 
 func New() *MapStorage {
-	return &MapStorage{stor: make(map[string]models.User)}
+	return &MapStorage{
+		stor:  make(map[string]models.User),
+		bStor: make(map[string]models.Book),
+	}
 }
 
 func (ms *MapStorage) SaveUser(user models.User) (string, error) {
