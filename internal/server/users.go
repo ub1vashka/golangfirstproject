@@ -1,15 +1,64 @@
 package server
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/ub1vashka/golangfirstproject/internal/domain/models"
 	"github.com/ub1vashka/golangfirstproject/internal/logger"
+	"github.com/ub1vashka/golangfirstproject/internal/storage/storageerror"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) loginHendler(ctx *gin.Context) { //nolint:dupl //todo
+func (s *Server) getUserByIDHandler(ctx *gin.Context) {
+	log := logger.Get()
+	uid := ctx.Param("id")
+	user, err := s.uService.GetUser(uid)
+	if err != nil {
+		log.Error().Err(err).Msg("get user by ID failed")
+		if errors.Is(err, storageerror.ErrUserNotFound) {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
+}
+
+func (s *Server) getUsersHandler(ctx *gin.Context) {
+	log := logger.Get()
+	users, err := s.uService.GetUsers()
+	if err != nil {
+		log.Error().Err(err).Msg("get all users form storage failed")
+		if errors.Is(err, storageerror.ErrEmptyUserStorage) {
+			ctx.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, users)
+}
+
+func (s *Server) deleteUserHandler(ctx *gin.Context) {
+	log := logger.Get()
+	uid := ctx.Param("id")
+	err := s.uService.DeleteUser(uid)
+	if err != nil {
+		log.Error().Err(err).Msg("delete user failed")
+		if errors.Is(err, storageerror.ErrUserNotFound) {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"message": "user deleted successfully"})
+}
+
+func (s *Server) loginHandler(ctx *gin.Context) { //nolint:dupl //todo
 	log := logger.Get()
 	var user models.UserLogin
 	err := ctx.ShouldBindBodyWithJSON(&user)
@@ -32,7 +81,7 @@ func (s *Server) loginHendler(ctx *gin.Context) { //nolint:dupl //todo
 	ctx.String(http.StatusCreated, "User was logined; user id: %s", uid)
 }
 
-func (s *Server) registerHendler(ctx *gin.Context) { //nolint:dupl //todo
+func (s *Server) registerHandler(ctx *gin.Context) { //nolint:dupl //todo
 	log := logger.Get()
 	var user models.User
 	err := ctx.ShouldBindBodyWithJSON(&user)
