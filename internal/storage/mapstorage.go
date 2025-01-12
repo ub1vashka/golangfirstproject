@@ -53,7 +53,7 @@ func (ms *MapStorage) DeleteUser(uid string) error {
 
 func (ms *MapStorage) GetUsers() ([]models.User, error) {
 	if len(ms.stor) == 0 {
-		return nil, storageerror.ErrEmptyStorage
+		return nil, storageerror.ErrEmptyUserStorage
 	}
 	var users []models.User
 	for _, user := range ms.stor {

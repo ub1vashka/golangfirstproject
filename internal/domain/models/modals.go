@@ -11,7 +11,7 @@ type User struct {
 	Name         string    `json:"name,omitempty" validate:"required"`
 	Email        string    `json:"email" validate:"required,email"`
 	Password     string    `json:"pass" validate:"required,min=8"`
-	Age          int       `json:"age,omitempty" validate:"get=12"`
+	Age          int       `json:"age,omitempty" validate:"gte=12"`
 	RegisterDate time.Time `json:"registerDate,omitempty"`
 }
 

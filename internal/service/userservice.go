@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"github.com/ub1vashka/golangfirstproject/internal/domain/models"
 	"github.com/ub1vashka/golangfirstproject/internal/logger"
 )
@@ -45,6 +47,7 @@ func (us *UserService) LoginUser(user models.UserLogin) (string, error) {
 
 func (us *UserService) RegisterUser(user models.User) (string, error) {
 	log := logger.Get()
+	user.RegisterDate = time.Now()
 	uid, err := us.stor.SaveUser(user)
 	if err != nil {
 		log.Error().Err(err).Msg("save user failed")
