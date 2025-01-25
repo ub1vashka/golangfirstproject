@@ -23,16 +23,16 @@ func NewUserService(stor UserStorage) UserService {
 	return UserService{stor: stor}
 }
 
-func (bs *UserService) GetUsers() ([]models.User, error) {
-	return bs.stor.GetUsers()
+func (us *UserService) GetUsers() ([]models.User, error) {
+	return us.stor.GetUsers()
 }
 
-func (bs *UserService) GetUser(uid string) (models.User, error) {
-	return bs.stor.GetUser(uid)
+func (us *UserService) GetUser(uid string) (models.User, error) {
+	return us.stor.GetUser(uid)
 }
 
-func (bs *UserService) DeleteUser(uid string) error {
-	return bs.stor.DeleteUser(uid)
+func (us *UserService) DeleteUser(uid string) error {
+	return us.stor.DeleteUser(uid)
 }
 
 func (us *UserService) LoginUser(user models.UserLogin) (string, error) {
