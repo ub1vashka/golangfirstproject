@@ -12,8 +12,6 @@ run:
   # Default: 1m
   timeout: 3m
   tests: false
-  skip-dirs:
-    - logger
 
 
 # This file contains only configs which differ from defaults.
@@ -366,3 +364,5 @@ issues:
         - gosec
         - noctx
         - wrapcheck
+  exclude-dirs:
+    - logger
