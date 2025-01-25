@@ -27,7 +27,7 @@ func ReadConfig() Config {
 	flag.BoolVar(&cfg.Debug, "debug", false, "enable logger debug level")
 	flag.Parse()
 
-	//os.Getenv("SRV_HOST")
+	// os.Getenv("SRV_HOST")
 	cfg.Host = cmp.Or(os.Getenv("SRV_HOST"), cfg.Host)
 	if tmp := os.Getenv("SRV_PORT"); tmp != "" {
 		port, err := strconv.Atoi(tmp)
