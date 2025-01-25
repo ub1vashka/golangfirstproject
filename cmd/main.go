@@ -24,7 +24,7 @@ func main() {
 	userService := service.NewUserService(stor)
 	bookService := service.NewBookService(stor)
 	serve := server.New(cfg, userService, bookService)
-	if err := serve.Run(); err != nil {
+	if err = serve.Run(); err != nil {
 		log.Fatal().Err(err).Send()
 	}
 }
