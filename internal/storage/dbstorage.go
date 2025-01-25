@@ -8,8 +8,13 @@ import (
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/jackc/pgx/v5"
+
 	"github.com/ub1vashka/golangfirstproject/internal/domain/models"
 	"github.com/ub1vashka/golangfirstproject/internal/logger"
+)
+
+const (
+	timeout = 5 * time.Second
 )
 
 type DBStorage struct {
@@ -26,7 +31,7 @@ func NewDB(ctx context.Context, addr string) (*DBStorage, error) {
 
 func (dbs *DBStorage) GetBooks() ([]models.Book, error) {
 	log := logger.Get()
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
 	rows, err := dbs.conn.Query(ctx, "SELECT * FROM books")
@@ -54,7 +59,7 @@ func Migrations(dbDsn string, migratePath string) error {
 		log.Error().Err(err).Msg("failed to db connect")
 		return err
 	}
-	if err := m.Up(); err != nil {
+	if err = m.Up(); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
 			log.Debug().Msg("no migrations apply") // если никаких изменений не было в миграциях
 			return nil
